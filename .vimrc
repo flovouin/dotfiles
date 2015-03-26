@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tomtom/tcomment_vim'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
