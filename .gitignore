@@ -4,4 +4,9 @@
 !.ycm_extra_conf.py
 !.gitignore
 !.gitconfig
+!.vim
+.vim/*
+!.vim/syntax
+.vim/syntax/*
+!.vim/syntax/matlab.vim
 
