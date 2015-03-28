@@ -9,19 +9,28 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'vim-scripts/AutoComplPop'
+Plugin 'OmniSharp/omnisharp-vim'
+Plugin 'tpope/vim-dispatch'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " Completion
-let g:ycm_filetype_blacklist = { 'html' : 1 }
+let g:ycm_filetype_blacklist = { 'html': 1, 'javascript': 1, 'cs' : 1 }
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 set completeopt-=preview
 set completeopt+=longest,menuone
 let g:ycm_add_preview_to_completeopt = 0
+
+let g:OmniSharp_start_without_solution = 1
+let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
+let g:OmniSharp_selector_ui = 'unite'
+let g:OmniSharp_selector_ui = 'ctrlp'
 
 " Indentation
 set tabstop=2
