@@ -16,7 +16,8 @@ Plugin 'tpope/vim-dispatch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'jonathanfilip/vim-lucius'
+Plugin 'xolox/vim-misc'
+Plugin 'flazz/vim-colorschemes'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -36,8 +37,26 @@ let g:OmniSharp_selector_ui = 'ctrlp'
 
 " Colors
 set t_Co=256
-colorscheme lucius
-LuciusDarkHighContrast
+colorscheme gruvbox
+set background=dark
+set cursorline
+hi CursorLine guibg=Grey40
+set hlsearch
+" Removes highlighting from the previous search with the space bar
+nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
+" Searches for the current word using enter
+let g:highlighting = 0
+function! Highlighting()
+  if g:highlighting == 1 && @/ =~ '^\\<'.expand('<cword>').'\\>$'
+    let g:highlighting = 0
+    return ":silent nohlsearch\<CR>"
+  endif
+  let @/ = '\<'.expand('<cword>').'\>'
+  let g:highlighting = 1
+  return ":silent set hlsearch\<CR>"
+endfunction
+nnoremap <silent> <expr> <CR> Highlighting()
 
 "
 set backspace=2
@@ -46,6 +65,7 @@ set backspace=2
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set number
 
 " Status bar
 set laststatus=2
