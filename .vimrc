@@ -35,6 +35,9 @@ let g:OmniSharp_selector_ui = 'unite'
 let g:OmniSharp_selector_ui = 'ctrlp'
 
 " Colors
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
 colorscheme lucius
 LuciusDarkHighContrast
 
