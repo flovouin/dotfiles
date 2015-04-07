@@ -16,9 +16,11 @@ Plugin 'tpope/vim-dispatch'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'jonathanfilip/vim-lucius'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+syntax on
 
 " Completion
 let g:ycm_filetype_blacklist = { 'html': 1, 'javascript': 1, 'cs' : 1 }
@@ -31,6 +33,13 @@ let g:OmniSharp_start_without_solution = 1
 let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 let g:OmniSharp_selector_ui = 'unite'
 let g:OmniSharp_selector_ui = 'ctrlp'
+
+" Colors
+colorscheme lucius
+LuciusDarkHighContrast
+
+"
+set backspace=2
 
 " Indentation
 set tabstop=2
