@@ -66,6 +66,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set number
+com! FormatJSON %!python -m json.tool
 
 " Status bar
 set laststatus=2
