@@ -18,6 +18,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'xolox/vim-misc'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'vim-scripts/project.tar.gz'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -73,6 +74,9 @@ set laststatus=2
 if has("statusline")
   set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
 endif
+
+" Project sidebar
+let g:proj_window_width = 40
 
 " Encoding
 if has("multi_byte")
