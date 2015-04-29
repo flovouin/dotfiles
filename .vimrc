@@ -77,6 +77,8 @@ endif
 
 " Project sidebar
 let g:proj_window_width = 40
+" Explorer sidebar
+let g:netrw_liststyle = 3
 
 " Windows
 nnoremap <C-J> <C-W><C-J>
