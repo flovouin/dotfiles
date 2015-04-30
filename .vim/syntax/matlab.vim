@@ -17,6 +17,9 @@ endif
 " Use case sensitive matching of keywords
 syn case match
 
+setlocal shiftwidth=4
+setlocal tabstop=4
+
 " Stop keywords embedded in structures from lighting up
 " For example, mystruct.length = 1 should not highlight length.
 " WARNING: beginning of word pattern \< will no longer match '.'
