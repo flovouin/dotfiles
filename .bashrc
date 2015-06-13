@@ -13,6 +13,8 @@ if [ "$(uname)" == "Darwin" ]; then
   if [ -f $(brew --prefix)/etc/bash_completion ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
+
+  alias brewuu='brew update && brew upgrade --all'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Add an "alert" alias for long running commands.  Use like so:
   #   sleep 10; alert
