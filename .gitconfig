@@ -12,3 +12,4 @@
 	rhead = reset HEAD
 	st = status
 	cm = commit -m
+	pushdel = push --delete
