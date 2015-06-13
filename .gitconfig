@@ -3,6 +3,7 @@
 	name = Flo
 [core]
 	editor = vim
+	excludesfile = /Users/flo/.gitignore_global
 [alias]
 	co = checkout
 	cob = checkout -b
