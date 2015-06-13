@@ -18,7 +18,10 @@ Plugin 'scrooloose/syntastic'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'xolox/vim-misc'
 Plugin 'flazz/vim-colorschemes'
-Plugin 'vim-scripts/project.tar.gz'
+Plugin 'bling/vim-airline'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -70,15 +73,21 @@ set number
 com! FormatJSON %!python -m json.tool
 
 " Status bar
+let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
-if has("statusline")
-  set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
-endif
+let g:airline_theme='bubblegum'
+let g:airline_powerline_fonts = 1
 
-" Project sidebar
-let g:proj_window_width = 40
 " Explorer sidebar
 let g:netrw_liststyle = 3
+autocmd vimenter * NERDTree
+
+" Buffers
+set hidden
+nnoremap <silent> <Tab> :bnext<CR>
+nnoremap <silent> <S-Tab> :bprevious<CR>
+nnoremap <silent> <leader>q :bp<cr>:bd #<cr>
+nnoremap <silent> <leader>Q :bp<cr>:bd! #<cr>
 
 " Windows
 nnoremap <C-J> <C-W><C-J>
