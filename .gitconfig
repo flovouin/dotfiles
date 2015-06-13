@@ -3,3 +3,11 @@
 	name = Flo
 [core]
 	editor = vim
+[alias]
+	co = checkout
+	cob = checkout -b
+	brD = branch -D
+	brm = branch -m
+	rhead = reset HEAD
+	st = status
+	cm = commit -m
