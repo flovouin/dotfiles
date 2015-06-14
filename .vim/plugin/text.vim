@@ -28,8 +28,7 @@ set hlsearch
 set ignorecase
 " ...unless we type a capital
 set smartcase
-" Removes highlighting from the previous search with the space bar
-nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
+
 " Searches for the current word using enter
 let g:highlighting = 0
 function! Highlighting()
@@ -41,4 +40,10 @@ function! Highlighting()
   let g:highlighting = 1
   return ":silent set hlsearch\<CR>"
 endfunction
-nnoremap <silent> <expr> <CR> Highlighting()
+nnoremap <silent> <expr> <Space> Highlighting()
+
+" Search across files
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+nnoremap <Leader>f :Ack! "
