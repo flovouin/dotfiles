@@ -28,16 +28,21 @@ filetype plugin indent on    " required
 syntax on
 
 " Completion
-let g:ycm_filetype_blacklist = { 'html': 1, 'javascript': 1, 'cs' : 1 }
+let g:ycm_filetype_blacklist = { 'html': 1, 'javascript': 1 }
 let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 set completeopt-=preview
 set completeopt+=longest,menuone
 let g:ycm_add_preview_to_completeopt = 0
 
+" OmniSharp
 let g:OmniSharp_start_without_solution = 1
 let g:syntastic_cs_checkers = ['syntax', 'semantic', 'issues']
 let g:OmniSharp_selector_ui = 'unite'
 let g:OmniSharp_selector_ui = 'ctrlp'
+
+" Quickfix
+nnoremap <silent> <leader>e :cn<CR>
+nnoremap <silent> <leader>E :cp<CR>
 
 " Colors
 set t_Co=256
