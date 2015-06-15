@@ -1,9 +1,6 @@
-[user]
-	email = florent.vouin@gmail.com
-	name = Flo
 [core]
 	editor = vim
-	excludesfile = /Users/flo/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [alias]
 	co = checkout
 	cob = checkout -b
@@ -13,3 +10,5 @@
 	st = status
 	cm = commit -m
 	pushdel = push --delete
+[color]
+	ui = true

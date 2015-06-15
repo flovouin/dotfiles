@@ -1,3 +1,14 @@
 *.swp
 *.o
-*~
+*.DS_Store
+*.txt~
+*.m~
+*.fig
+*.sublime-project
+*.sublime-workspace
+xcuserdata
+*.xcworkspace
+*.swp
+*.pyc
+*.lyx~
+*.lyx#
