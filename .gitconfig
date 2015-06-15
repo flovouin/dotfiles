@@ -1,14 +1,15 @@
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore_global
+  editor = vim
+  excludesfile = ~/.gitignore_global
 [alias]
-	co = checkout
-	cob = checkout -b
-	brD = branch -D
-	brm = branch -m
-	rhead = reset HEAD
-	st = status
-	cm = commit -m
-	pushdel = push --delete
+  co = checkout
+  cob = checkout -b
+  brD = branch -D
+  brm = branch -m
+  rhead = reset HEAD
+  st = status
+  cm = commit -m
+  pushdel = push --delete
+  mnoff = merge --log --no-ff
 [color]
-	ui = true
+  ui = true
