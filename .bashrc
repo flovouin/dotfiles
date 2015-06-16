@@ -89,3 +89,5 @@ fi
 # Alias definitions.
 alias lsal='ls -al'
 alias vimd='vim -d'
+alias duch='du -ch'
+alias duchd='du -ch -d'
