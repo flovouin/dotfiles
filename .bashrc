@@ -1,3 +1,7 @@
+# Starts tmux for every bash session
+[[ $- != *i* ]] && return
+[[ -z "$TMUX" ]] && exec tmux
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
