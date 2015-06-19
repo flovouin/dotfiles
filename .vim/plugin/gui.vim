@@ -6,6 +6,8 @@ colorscheme gruvbox
 set background=dark
 set cursorline
 hi CursorLine guibg=Grey40
+set lazyredraw
+set ttyfast
 
 "" Scrolling and moving around
 " Line numbers

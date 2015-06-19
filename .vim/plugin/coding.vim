@@ -13,7 +13,7 @@ let g:ycm_add_preview_to_completeopt = 0
 " Insert snippets without using TAB, already taken by YCM
 let g:UltiSnipsExpandTrigger="<C-b>"
 let g:UltiSnipsJumpForwardTrigger="<C-b>"
-let g:UltiSnipsJumpBackwardTrigger="<C-z>"
+let g:UltiSnipsJumpBackwardTrigger="<C-v>"
 
 "" OmniSharp
 let g:OmniSharp_start_without_solution = 0
