@@ -6,6 +6,7 @@
   cob = checkout -b
   brd = branch -d
   brdelete = branch -D
+  lbr = show-branch --list
   brm = branch -m
   rhead = reset HEAD
   st = status
