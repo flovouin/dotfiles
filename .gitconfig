@@ -4,7 +4,8 @@
 [alias]
   co = checkout
   cob = checkout -b
-  brD = branch -D
+  brd = branch -d
+  brdelete = branch -D
   brm = branch -m
   rhead = reset HEAD
   st = status
