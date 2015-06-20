@@ -15,3 +15,21 @@ endsnippet
 snippet returns "returns comment tag"
 <returns>${0:returns}</returns>
 endsnippet
+
+snippet nullarg "null argument check" b
+if (${1:argument} == null) {
+	throw new ArgumentNullException("$1");
+}
+endsnippet
+
+snippet emptyarg "null or empty string argument check" b
+if (string.IsNullOrEmpty(${1:argument})) {
+	throw new ArgumentNullException("$1");
+}
+endsnippet
+
+snippet whitearg "null or white space string argument check" b
+if (string.IsNullOrWhiteSpace(${1:argument})) {
+	throw new ArgumentNullException("$1");
+}
+endsnippet
