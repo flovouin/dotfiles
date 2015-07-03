@@ -19,6 +19,8 @@ if [ "$(uname)" == "Darwin" ]; then
   fi
 
   alias brewuu='brew update && brew upgrade --all'
+  alias mono64='~/.monobrew/bin/mono'
+  alias mcs64='~/.monobrew/bin/mcs'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Add an "alert" alias for long running commands.  Use like so:
   #   sleep 10; alert
