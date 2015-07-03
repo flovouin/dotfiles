@@ -1,7 +1,4 @@
 #!/bin/bash
-clear
-echo "Dot files & configuration installer"
-echo "==================================="
 
 #
 ORIGINALDIR=$( pwd )
@@ -13,7 +10,30 @@ DOTFILES=".bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_
 BREWTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux the_silver_searcher vim"
 
 #
-cd $SCRIPTDIR
+cd "$SCRIPTDIR"
+
+# Update and relaunch script
+if [ $# = 0 ]; then
+  clear
+  echo "Dot files & configuration installer"
+  echo "==================================="
+  echo ""
+
+  echo "Updating dot files and this script..."
+  git pull > /dev/null
+
+  echo "Relaunching the script..."
+  ./install.sh standard
+
+  cd "$ORIGINALDIR"
+  exit
+elif [ $# -gt 1 ]; then
+  >&2 echo "Unexpected number of arguments."
+  exit 1
+elif [ $1 != "standard" ]; then
+  >&2 echo "Unexpected argument."
+  exit 1
+fi
 
 # Installing brew
 echo ""
@@ -49,8 +69,8 @@ curl -s -L https://github.com/powerline/fonts/archive/master.zip | \
 echo ""
 echo "Linking dot files, existing files will be backed up to $BACKUPDIR..."
 
-rm -rf $BACKUPDIR
-mkdir -p $BACKUPDIR
+rm -rf "$BACKUPDIR"
+mkdir -p "$BACKUPDIR"
 
 for DOTFILE in $DOTFILES; do
   SRCDOTFILE="$SCRIPTDIR/$DOTFILE"
@@ -62,8 +82,8 @@ for DOTFILE in $DOTFILES; do
       continue
     else
       echo "Backing up $DOTFILE..."
-      cp $HOME/$DOTFILE $BACKUPDIR
-      rm -f $HOME/$DOTFILE
+      cp "$HOME/$DOTFILE" "$BACKUPDIR"
+      rm -f "$HOME/$DOTFILE"
     fi
   fi
   echo "Linking $DOTFILE..."
@@ -148,7 +168,7 @@ else
 fi
 
 #
-cd $ORIGINALDIR
+cd "$ORIGINALDIR"
 
 echo ""
 echo "Done."
