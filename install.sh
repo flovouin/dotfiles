@@ -96,6 +96,7 @@ echo -e ""
 echo -e $COLOUR_BLUE"Installing tools \"$BREWTOOLS\"..."$NO_COLOUR
 
 brew install $BREWTOOLS
+brew upgrade $BREWTOOLS
 
 #Installing fonts
 echo -e ""
@@ -136,7 +137,7 @@ for DOTFILE in $DOTFILES; do
 done
 
 GITCONFIGFILE=$HOME/.gitconfig
-if ! $( grep -q "path = ~/profiles/.gitconfig" $GITCONFIGFILE ); then
+if ! $( grep -q "path = $SCRIPTDIR/.gitconfig" $GITCONFIGFILE ); then
   echo -e ""
   echo -e $COLOUR_YELLOW"Please include the following lines to $GITCONFIGFILE:"$NO_COLOUR
   echo -e "[include]"
@@ -156,6 +157,7 @@ if [ -d "$DSTVIM" ]; then
   else
     echo -e -n $COLOUR_YELLOW".vim directory already exists, do you want to replace it? (y/n)"$NO_COLOUR
     read -n 1 OVERWRITEVIM
+    echo -e ""
     if [ "$OVERWRITEVIM" = "y" ]; then
       LINKVIM=true
       echo -e $COLOUR_YELLOW"Backing up .vim directory to $BACKUPDIR..."$NO_COLOUR
@@ -175,15 +177,19 @@ fi
 # Installing vundle
 echo -e ""
 echo -e $COLOUR_BLUE"Checking Vundle..."$NO_COLOUR
-if [ ! -d "$HOME/.vim/bundle" ]; then
+
+BUNDLEDIR="$HOME/.vim/bundle"
+VUNDLEDIR="$BUNDLEDIR/Vundle.vim"
+if [ ! -d "$VUNDLEDIR" ]; then
   echo -e "Installing Vundle..."
-  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+  git clone https://github.com/gmarik/Vundle.vim.git $VUNDLEDIR > /dev/null
 else
   echo -e $COLOUR_GREEN"Vundle is already installed."$NO_COLOUR
 fi
 
+YCMDIR="$HOME/.vim/bundle/YouCompleteMe"
 YCMEXISTED=false
-if [ -d "$HOME/.vim/bundle/YouCompleteMe" ]; then
+if [ -d "$YCMDIR" ]; then
   YCMEXISTED=true
 fi
 
@@ -200,22 +206,28 @@ else
   "$HOME/.vim/bundle/YouCompleteMe/install.sh" --clang-completer --omnisharp-completer > /dev/null
 fi
 
+# Compiling OmniSharp
+echo -e "Compiling OmniSharp server..."
+OMNISHARPDIR="$BUNDLEDIR/omnisharp-vim/server/"
+cd "$OMNISHARPDIR" && xbuild > /dev/null
+cd "$SCRIPTDIR"
+
 # Installing separate mono64
 echo -e ""
 echo -e $COLOUR_BLUE"Checking Mono 64-bit..."$NO_COLOUR
 MONO64BREW="$MONO64DIR/bin/brew"
 if [ -d "$MONO64DIR" ]; then
   echo -e $COLOUR_GREEN"Mono 64-bit is already set up."$NO_COLOUR
-  echo -e "Checking for (and installing) updates..."
-  "$MONO64BREW" update > /dev/null && "$MONO64BREW" upgrade
 else
-  echo -e "Installing separate Homebrew and Mono..."
+  echo -e "Installing separate Homebrew for Mono..."
   mkdir -p "$MONO64DIR" && \
     curl -s -L https://github.com/Homebrew/homebrew/tarball/master | \
-    tar xz --strip 1 -C "$MONO64DIR" && \
-    brew update && \
-    install mono
+    tar xz --strip 1 -C "$MONO64DIR"
 fi
+echo -e "Checking for (and installing) updates..."
+"$MONO64BREW" update > /dev/null
+"$MONO64BREW" upgrade > /dev/null
+"$MONO64BREW" install mono
 
 #
 cd "$ORIGINALDIR"
