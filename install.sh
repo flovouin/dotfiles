@@ -95,8 +95,9 @@ brew update > /dev/null
 echo -e ""
 echo -e $COLOUR_BLUE"Installing tools \"$BREWTOOLS\"..."$NO_COLOUR
 
-brew install $BREWTOOLS
 brew upgrade $BREWTOOLS
+brew install $BREWTOOLS
+brew cleanup > /dev/null
 
 #Installing fonts
 echo -e ""
@@ -137,11 +138,20 @@ for DOTFILE in $DOTFILES; do
 done
 
 GITCONFIGFILE=$HOME/.gitconfig
-if ! $( grep -q "path = $SCRIPTDIR/.gitconfig" $GITCONFIGFILE ); then
+LOCALCONFIG="$SCRIPTDIR/.gitconfig"
+if ! $( grep -q "path = $LOCALCONFIG" $GITCONFIGFILE ); then
   echo -e ""
-  echo -e $COLOUR_YELLOW"Please include the following lines to $GITCONFIGFILE:"$NO_COLOUR
-  echo -e "[include]"
-  echo -e "  path = $SCRIPTDIR/.gitconfig"
+  echo -e $COLOUR_RED"$GITCONFIGFILE does not source $LOCALCONFIG. The following lines should be added to $GITCONFIGFILE:"
+  echo -e $COLOUR_YELLOW"[include]"
+  echo -e "  path = $SCRIPTDIR/.gitconfig"$NO_COLOUR
+  echo -e ""
+  echo -e -n "Do you want to add them now? (y/n)"
+  read -n 1 SOURCEGITCONFIG
+  echo -e ""
+  if [ "$SOURCEGITCONFIG" = "y" ]; then
+    echo "[include]" >> $GITCONFIGFILE
+    echo "  path = $SCRIPTDIR/.gitconfig" >> $GITCONFIGFILE
+  fi
 fi
 
 # Link .vim directory
@@ -226,8 +236,9 @@ else
 fi
 echo -e "Checking for (and installing) updates..."
 "$MONO64BREW" update > /dev/null
-"$MONO64BREW" upgrade > /dev/null
+"$MONO64BREW" upgrade mono
 "$MONO64BREW" install mono
+"$MONO64BREW" cleanup > /dev/null
 
 #
 cd "$ORIGINALDIR"
