@@ -7,7 +7,7 @@ DAEMONDIR="/Library/LaunchDaemons"
 BACKUPDIR="$SCRIPTDIR/backup"
 MONO64DIR="$HOME/.monobrew"
 
-DOTFILES=".bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_conf.py"
+DOTFILES=".bash_profile .bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_conf.py"
 BREWTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux the_silver_searcher vim"
 DAEMONFILES="limit.maxfiles.plist limit.maxproc.plist"
 
@@ -145,7 +145,7 @@ if ! $( grep -q "path = $LOCALCONFIG" $GITCONFIGFILE ); then
   echo -e $COLOUR_YELLOW"[include]"
   echo -e "  path = $SCRIPTDIR/.gitconfig"$NO_COLOUR
   echo -e ""
-  echo -e -n "Do you want to add them now? (y/n)"
+  echo -e -n "Do you want to add them now? (y/n) "
   read -n 1 SOURCEGITCONFIG
   echo -e ""
   if [ "$SOURCEGITCONFIG" = "y" ]; then
@@ -165,7 +165,7 @@ if [ -d "$DSTVIM" ]; then
   if [ "$EXISTINGVIM" = "$SRCVIM" ]; then
     echo -e $COLOUR_GREEN".vim is already linked."$NO_COLOUR
   else
-    echo -e -n $COLOUR_YELLOW".vim directory already exists, do you want to replace it? (y/n)"$NO_COLOUR
+    echo -e -n $COLOUR_YELLOW".vim directory already exists, do you want to replace it? (y/n) "$NO_COLOUR
     read -n 1 OVERWRITEVIM
     echo -e ""
     if [ "$OVERWRITEVIM" = "y" ]; then
