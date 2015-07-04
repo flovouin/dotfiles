@@ -2,7 +2,9 @@
 
 "" Colors
 set t_Co=256
-colorscheme gruvbox
+" We silence the colour scheme change because it might not work if
+" the plugins have not been downloaded yet.
+silent! colorscheme gruvbox
 set background=dark
 set cursorline
 hi CursorLine guibg=Grey40
