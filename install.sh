@@ -14,7 +14,7 @@ FONTSTEMPDIR="fonts-master"
 DOTFILES=".bash_profile .bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_conf.py"
 COMMONTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux vim"
 OSXTOOLS="the_silver_searcher"
-LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono"
+LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono python-dev python3-dev"
 DAEMONFILES="limit.maxfiles.plist limit.maxproc.plist"
 
 COLOUR_YELLOW="\033[1;33m"
