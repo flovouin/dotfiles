@@ -1,3 +1,6 @@
+export LC_ALL="en_GB.utf8"
+export LANG="en_GB.utf8"
+
 # Starts tmux for every bash session
 [[ $- != *i* ]] && return
 [[ -z "$TMUX" ]] && exec tmux
