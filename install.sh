@@ -226,38 +226,44 @@ link_dot_files() {
   SRCIPYTHONFILE="$SCRIPTDIR/$IPYTHON_CONF_FILE"
   DSTIPYTHONFILE="$IPYTHON_CONF_DIR/$IPYTHON_CONF_FILE"
 
+  SHOULDLINK=true
   if [[ -f "$DSTIPYTHONFILE" ]]; then
     CURDSTFILE=$( readlink "$DSTIPYTHONFILE" )
     if [[ $CURDSTFILE == $SRCIPYTHONFILE ]]; then
       echo -e $COLOUR_GREEN"$IPYTHON_CONF_FILE is already linked."$NO_COLOUR
-      continue
+      SHOULDLINK=false
     else
       echo -e $COLOUR_YELLOW"Backing up $IPYTHON_CONF_FILE..."$NO_COLOUR
       cp "$DSTIPYTHONFILE" "$BACKUPDIR"
       rm -f "$DSTIPYTHONFILE"
     fi
   fi
-  echo -e "Linking $IPYTHON_CONF_FILE..."
-  ln -s "$SRCIPYTHONFILE" "$IPYTHON_CONF_DIR"
+  if $SHOULDLINK; then
+    echo -e "Linking $IPYTHON_CONF_FILE..."
+    ln -s "$SRCIPYTHONFILE" "$IPYTHON_CONF_DIR"
+  fi
 
   # Jupyter
   mkdir -p "$JUPYTER_CONF_DIR"
   SRCJUPYTERFILE="$SCRIPTDIR/$JUPYTER_CONF_FILE"
   DSTJUPYTERFILE="$JUPYTER_CONF_DIR/$JUPYTER_CONF_FILE"
 
+  SHOULDLINK=true
   if [[ -f "$DSTJUPYTERFILE" ]]; then
     CURDSTFILE=$( readlink "$DSTJUPYTERFILE" )
     if [[ $CURDSTFILE == $SRCJUPYTERFILE ]]; then
       echo -e $COLOUR_GREEN"$JUPYTER_CONF_FILE is already linked."$NO_COLOUR
-      continue
+      SHOULDLINK=false
     else
       echo -e $COLOUR_YELLOW"Backing up $JUPYTER_CONF_FILE..."$NO_COLOUR
       cp "$DSTJUPYTERFILE" "$BACKUPDIR"
       rm -f "$DSTJUPYTERFILE"
     fi
   fi
-  echo -e "Linking $JUPYTER_CONF_FILE..."
-  ln -s "$SRCJUPYTERFILE" "$JUPYTER_CONF_DIR"
+  if $SHOULDLINK; then
+    echo -e "Linking $JUPYTER_CONF_FILE..."
+    ln -s "$SRCJUPYTERFILE" "$JUPYTER_CONF_DIR"
+  fi
 
   # Sourcing the gitconfig
   source_gitconfig
