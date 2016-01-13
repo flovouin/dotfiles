@@ -329,7 +329,7 @@ install_vim() {
     echo -e $COLOUR_GREEN"YouCompleteMe already exists, not compiling it."$NO_COLOUR
   else
     echo -e "Compiling YouCompleteMe..."
-    "$HOME/.vim/bundle/YouCompleteMe/install.sh" --clang-completer --omnisharp-completer > /dev/null
+    "$HOME/.vim/bundle/YouCompleteMe/install.py" --clang-completer --omnisharp-completer > /dev/null
   fi
 
   # Compiling OmniSharp
