@@ -12,6 +12,11 @@ MONO64DIR="$HOME/.monobrew"
 FONTSTEMPDIR="fonts-master"
 
 DOTFILES=".bash_profile .bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_conf.py"
+IPYTHON_CONF_FILE="ipython_config.py"
+IPYTHON_CONF_DIR="$HOME/.ipython/profile_default"
+JUPYTER_CONF_FILE="jupyter_qtconsole_config.py"
+JUPYTER_CONF_DIR="$HOME/.jupyter"
+
 COMMONTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux vim"
 OSXTOOLS="the_silver_searcher"
 LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono python-dev python3-dev"
@@ -200,20 +205,59 @@ link_dot_files() {
   for DOTFILE in $DOTFILES; do
     SRCDOTFILE="$SCRIPTDIR/$DOTFILE"
     DSTDOTFILE="$HOME/$DOTFILE"
-    if [[ -f "$HOME/$DOTFILE" ]]; then
+    if [[ -f "$DSTDOTFILE" ]]; then
       CURDSTFILE=$( readlink "$DSTDOTFILE" )
       if [[ $CURDSTFILE == $SRCDOTFILE ]]; then
         echo -e $COLOUR_GREEN"$DOTFILE is already linked."$NO_COLOUR
         continue
       else
         echo -e $COLOUR_YELLOW"Backing up $DOTFILE..."$NO_COLOUR
-        cp "$HOME/$DOTFILE" "$BACKUPDIR"
-        rm -f "$HOME/$DOTFILE"
+        cp "$DSTDOTFILE" "$BACKUPDIR"
+        rm -f "$DSTDOTFILE"
       fi
     fi
     echo -e "Linking $DOTFILE..."
-    ln -s "$SCRIPTDIR/$DOTFILE" "$HOME"
+    ln -s "$SRCDOTFILE" "$HOME"
   done
+
+  # Linking config files in weird locations
+  # IPython
+  mkdir -p "$IPYTHON_CONF_DIR"
+  SRCIPYTHONFILE="$SCRIPTDIR/$IPYTHON_CONF_FILE"
+  DSTIPYTHONFILE="$IPYTHON_CONF_DIR/$IPYTHON_CONF_FILE"
+
+  if [[ -f "$DSTIPYTHONFILE" ]]; then
+    CURDSTFILE=$( readlink "$DSTIPYTHONFILE" )
+    if [[ $CURDSTFILE == $SRCIPYTHONFILE ]]; then
+      echo -e $COLOUR_GREEN"$IPYTHON_CONF_FILE is already linked."$NO_COLOUR
+      continue
+    else
+      echo -e $COLOUR_YELLOW"Backing up $IPYTHON_CONF_FILE..."$NO_COLOUR
+      cp "$DSTIPYTHONFILE" "$BACKUPDIR"
+      rm -f "$DSTIPYTHONFILE"
+    fi
+  fi
+  echo -e "Linking $IPYTHON_CONF_FILE..."
+  ln -s "$SRCIPYTHONFILE" "$IPYTHON_CONF_DIR"
+
+  # Jupyter
+  mkdir -p "$JUPYTER_CONF_DIR"
+  SRCJUPYTERFILE="$SCRIPTDIR/$JUPYTER_CONF_FILE"
+  DSTJUPYTERFILE="$JUPYTER_CONF_DIR/$JUPYTER_CONF_FILE"
+
+  if [[ -f "$DSTJUPYTERFILE" ]]; then
+    CURDSTFILE=$( readlink "$DSTJUPYTERFILE" )
+    if [[ $CURDSTFILE == $SRCJUPYTERFILE ]]; then
+      echo -e $COLOUR_GREEN"$JUPYTER_CONF_FILE is already linked."$NO_COLOUR
+      continue
+    else
+      echo -e $COLOUR_YELLOW"Backing up $JUPYTER_CONF_FILE..."$NO_COLOUR
+      cp "$DSTJUPYTERFILE" "$BACKUPDIR"
+      rm -f "$DSTJUPYTERFILE"
+    fi
+  fi
+  echo -e "Linking $JUPYTER_CONF_FILE..."
+  ln -s "$SRCJUPYTERFILE" "$JUPYTER_CONF_DIR"
 
   # Sourcing the gitconfig
   source_gitconfig
