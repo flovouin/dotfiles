@@ -105,7 +105,7 @@ install_brew() {
   echo -e $COLOUR_BLUE"Checking Homebrew..."$NO_COLOUR
   if ! $( which -s brew ); then
     echo -e "Installing Homebrew..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" > /dev/null
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
   # Adding the science tap
@@ -120,6 +120,7 @@ install_brew() {
 # Installs useful programs.
 install_tools() {
   if [[ $PLATFORM == "OSX" ]]; then
+    xcode-select --install
     install_brew
   fi
 
