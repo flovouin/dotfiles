@@ -29,6 +29,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'sirver/ultisnips'
 Plugin 'mileszs/ack.vim'
 Plugin 'kballard/vim-swift'
+Plugin 'keith/sourcekittendaemon.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
