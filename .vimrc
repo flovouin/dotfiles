@@ -28,6 +28,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'honza/vim-snippets'
 Plugin 'sirver/ultisnips'
 Plugin 'mileszs/ack.vim'
+Plugin 'kballard/vim-swift'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
