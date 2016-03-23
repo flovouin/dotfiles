@@ -9,6 +9,7 @@
   lbr = show-branch --list
   brm = branch -m
   rhead = reset HEAD
+  rcached = rm --cached
   st = status
   cm = commit -m
   pushdel = push --delete
