@@ -32,8 +32,8 @@ let g:airline_powerline_fonts = 1
 "" Explorer sidebar
 let g:netrw_liststyle = 3
 autocmd vimenter * NERDTree
-autocmd VimEnter * wincmd p
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd vimenter * wincmd p
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "" Buffers
 " Alows switching between buffers without saving them first
