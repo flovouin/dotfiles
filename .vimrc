@@ -28,8 +28,10 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'honza/vim-snippets'
 Plugin 'sirver/ultisnips'
 Plugin 'mileszs/ack.vim'
-Plugin 'kballard/vim-swift'
+Plugin 'keith/swift.vim'
 Plugin 'keith/sourcekittendaemon.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'raimondi/delimitmate'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
