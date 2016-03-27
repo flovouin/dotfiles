@@ -17,9 +17,10 @@ IPYTHON_CONF_DIR="$HOME/.ipython/profile_default"
 JUPYTER_CONF_FILE="jupyter_qtconsole_config.py"
 JUPYTER_CONF_DIR="$HOME/.jupyter"
 
-COMMONTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux vim"
-OSXTOOLS="the_silver_searcher"
-LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono python-dev python3-dev"
+COMMONTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux vim cmus libsamplerate"
+OSXTOOLS="the_silver_searcher carthage node sourcekitten"
+LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono python-dev python3-dev nodejs python3-pip"
+PIPPACKAGES="matplotlib numpy scikit-learn scipy six theano"
 DAEMONFILES="limit.maxfiles.plist limit.maxproc.plist"
 
 COLOUR_YELLOW="\033[1;33m"
@@ -27,6 +28,8 @@ COLOUR_RED="\033[0;31m"
 COLOUR_GREEN="\033[0;32m"
 COLOUR_BLUE="\033[0;35m"
 NO_COLOUR="\033[0m"
+
+PIPINSTALL="pip3 install"
 
 #
 if $( python -mplatform | grep -q Darwin ); then
@@ -120,7 +123,12 @@ install_brew() {
 # Installs useful programs.
 install_tools() {
   if [[ $PLATFORM == "OSX" ]]; then
-    xcode-select --install
+    if ! xcode-select -p > /dev/null; then
+      >&2 echo -e $COLOUR_RED"Please install the Xcode Command Line Tools first using"$NO_COLOUR
+      >&2 echo -e $COLOUR_YELLOW"xcode-select --install"$NO_COLOUR
+      exit 1
+    fi
+
     install_brew
   fi
 
@@ -157,6 +165,11 @@ install_tools() {
   fi
 
   $PKGCLEAN > /dev/null
+
+  # Python packages
+  echo -e ""
+  echo -e $COLOUR_BLUE"Installing pip packages \"$PIPPACKAGES\"..."$NO_COLOUR
+  $PIPINSTALL $PIPPACKAGES > /dev/null
 }
 
 # Installs fonts.
@@ -372,7 +385,7 @@ if [[ $# -eq 0 ]]; then
   echo -e ""
 
   echo -e $COLOUR_BLUE"Updating dot files and this script..."$NO_COLOUR
-  git pull > /dev/null
+  git pull origin master > /dev/null
 
   echo -e "Relaunching the script..."
   ./install.sh all
