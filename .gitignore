@@ -1,3 +1,6 @@
 backup
 .vim/bundle
 .vim/.netrwhist
+cmus
+!cmus/follow_playback.sh
+!cmus/rc
