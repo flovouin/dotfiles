@@ -207,6 +207,38 @@ source_gitconfig() {
   fi
 }
 
+link_directory() {
+  SRCDIR=$1
+  DSTDIR=$2
+
+  LINKDIR=false
+  echo -e ""
+  echo -e $COLOUR_BLUE"Checking $SRCDIR directory..."$NO_COLOUR
+  if [[ -d $DSTDIR ]]; then
+    EXISTINGDIR=$( readlink "$DSTDIR" )
+    if [[ $EXISTINGDIR == $SRCDIR ]]; then
+      echo -e $COLOUR_GREEN"$SRCDIR is already linked."$NO_COLOUR
+    else
+      echo -e -n $COLOUR_YELLOW"$SRCDIR directory already exists, do you want to replace it? (y/n) "$NO_COLOUR
+      read -n 1 OVERWRITEDIR
+      echo -e ""
+      if [[ $OVERWRITEDIR == "y" ]]; then
+        LINKDIR=true
+        echo -e $COLOUR_YELLOW"Backing up $EXISTINGDIR directory to $BACKUPDIR..."$NO_COLOUR
+        cp -r "$EXISTINGDIR" "$BACKUPDIR"
+        rm -rf "$DSTDIR"
+      fi
+    fi
+  else
+    LINKDIR=true
+  fi
+
+  if $LINKDIR; then
+    echo -e "Linking $SRCDIR directory..."
+    ln -s "$SRCDIR" "$DSTDIR"
+  fi
+}
+
 # Linking dot files
 link_dot_files() {
   echo -e ""
@@ -283,34 +315,14 @@ link_dot_files() {
   source_gitconfig
 
   # Link .vim directory
-  LINKVIM=false
   SRCVIM="$SCRIPTDIR/.vim"
   DSTVIM="$HOME/.vim"
-  echo -e ""
-  echo -e $COLOUR_BLUE"Checking .vim directory..."$NO_COLOUR
-  if [[ -d $DSTVIM ]]; then
-    EXISTINGVIM=$( readlink "$DSTVIM" )
-    if [[ $EXISTINGVIM == $SRCVIM ]]; then
-      echo -e $COLOUR_GREEN".vim is already linked."$NO_COLOUR
-    else
-      echo -e -n $COLOUR_YELLOW".vim directory already exists, do you want to replace it? (y/n) "$NO_COLOUR
-      read -n 1 OVERWRITEVIM
-      echo -e ""
-      if [[ $OVERWRITEVIM == "y" ]]; then
-        LINKVIM=true
-        echo -e $COLOUR_YELLOW"Backing up .vim directory to $BACKUPDIR..."$NO_COLOUR
-        cp -r "$EXISTINGVIM" "$BACKUPDIR"
-        rm -rf "$DSTVIM"
-      fi
-    fi
-  else
-    LINKVIM=true
-  fi
+  link_directory $SRCVIM $DSTVIM
 
-  if $LINKVIM; then
-    echo -e "Linking .vim directory..."
-    ln -s "$SRCVIM" "$DSTVIM"
-  fi
+  # Link cmus directory
+  SRCCMUS="$SCRIPTDIR/cmus"
+  DSTCMUS="$HOME/.config/cmus"
+  link_directory $SRCCMUS $DSTCMUS
 }
 
 # Installing ViM
