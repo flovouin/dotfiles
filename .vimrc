@@ -33,6 +33,7 @@ Plugin 'keith/sourcekittendaemon.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'raimondi/delimitmate'
 Plugin 'tokorom/syntastic-swiftlint.vim'
+Plugin 'rizzatti/dash.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
