@@ -34,6 +34,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'raimondi/delimitmate'
 Plugin 'tokorom/syntastic-swiftlint.vim'
 Plugin 'rizzatti/dash.vim'
+Plugin 'pangloss/vim-javascript'
 
 call vundle#end()            " required
 filetype plugin indent on    " required

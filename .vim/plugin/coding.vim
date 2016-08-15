@@ -23,3 +23,11 @@ let g:OmniSharp_selector_ui = 'ctrlp'
 "" Quickfix
 nnoremap <silent> <Leader>g :cn<CR>
 nnoremap <silent> <Leader>G :cp<CR>
+
+"" vim-javascript conceal
+set conceallevel=1
+set concealcursor=nvic
+let g:javascript_conceal_function = "λ"
+let g:javascript_conceal_this = "@"
+let g:javascript_conceal_return = "<"
+let g:javascript_conceal_prototype = "#"
