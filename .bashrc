@@ -21,7 +21,7 @@ if [ "$(uname)" == "Darwin" ]; then
     . $(brew --prefix)/etc/bash_completion
   fi
 
-  alias brewuu='brew update && brew upgrade --all'
+  alias brewuu='brew update && brew upgrade'
   alias mono64='~/.monobrew/bin/mono'
   alias mcs64='~/.monobrew/bin/mcs'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
