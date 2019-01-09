@@ -38,6 +38,9 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   fi
 fi
 
+# nodenv
+eval "$(nodenv init -)"
+
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
