@@ -8,19 +8,13 @@ ORIGINALDIR=$( pwd )
 SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 DAEMONDIR="/Library/LaunchDaemons"
 BACKUPDIR="$SCRIPTDIR/backup"
-MONO64DIR="$HOME/.monobrew"
 FONTSTEMPDIR="fonts-master"
 
-DOTFILES=".bash_profile .bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc .ycm_extra_conf.py"
-IPYTHON_CONF_FILE="ipython_config.py"
-IPYTHON_CONF_DIR="$HOME/.ipython/profile_default"
-JUPYTER_CONF_FILE="jupyter_qtconsole_config.py"
-JUPYTER_CONF_DIR="$HOME/.jupyter"
+DOTFILES=".bash_profile .bashrc .git-prompt.sh .gitignore_global .tmux.conf .vimrc"
 
-COMMONTOOLS="git cmake bash-completion cloc doxygen octave python python3 tmux vim cmus libsamplerate"
-OSXTOOLS="the_silver_searcher carthage node sourcekitten"
-LINUXTOOLS="silversearcher-ag mono-complete ca-certificates-mono python-dev python3-dev nodejs python3-pip"
-PIPPACKAGES="matplotlib numpy scikit-learn scipy six theano"
+COMMONTOOLS="git cmake bash-completion python python3 tmux vim nodenv"
+OSXTOOLS="the_silver_searcher"
+LINUXTOOLS="silversearcher-ag python-dev python3-dev python3-pip"
 DAEMONFILES="limit.maxfiles.plist limit.maxproc.plist"
 
 COLOUR_YELLOW="\033[1;33m"
@@ -28,8 +22,6 @@ COLOUR_RED="\033[0;31m"
 COLOUR_GREEN="\033[0;32m"
 COLOUR_BLUE="\033[0;35m"
 NO_COLOUR="\033[0m"
-
-PIPINSTALL="pip3 install"
 
 #
 if $( python -mplatform | grep -q Darwin ); then
@@ -111,12 +103,6 @@ install_brew() {
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   fi
 
-  # Adding the science tap
-  if ! $( brew tap | grep -xq homebrew/science ); then
-    echo -e "Adding science tap to Homebrew..."
-    brew tap homebrew/science > /dev/null
-  fi
-
   return 0
 }
 
@@ -150,9 +136,6 @@ install_tools() {
     echo -e ""
     echo -e $COLOUR_BLUE"Installing Linux-specific tools \"$LINUXTOOLS\"..."$NO_COLOUR
 
-    # Up-to-date version of Mono
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF > /dev/null
-    echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list > /dev/null
     $PKGUPDATE > /dev/null
 
     $PKGUPGRADE $LINUXTOOLS > /dev/null
@@ -165,11 +148,6 @@ install_tools() {
   fi
 
   $PKGCLEAN > /dev/null
-
-  # Python packages
-  echo -e ""
-  echo -e $COLOUR_BLUE"Installing pip packages \"$PIPPACKAGES\"..."$NO_COLOUR
-  $PIPINSTALL $PIPPACKAGES > /dev/null
 }
 
 # Installs fonts.
@@ -266,51 +244,6 @@ link_dot_files() {
     ln -s "$SRCDOTFILE" "$HOME"
   done
 
-  # Linking config files in weird locations
-  # IPython
-  mkdir -p "$IPYTHON_CONF_DIR"
-  SRCIPYTHONFILE="$SCRIPTDIR/$IPYTHON_CONF_FILE"
-  DSTIPYTHONFILE="$IPYTHON_CONF_DIR/$IPYTHON_CONF_FILE"
-
-  SHOULDLINK=true
-  if [[ -f "$DSTIPYTHONFILE" ]]; then
-    CURDSTFILE=$( readlink "$DSTIPYTHONFILE" )
-    if [[ $CURDSTFILE == $SRCIPYTHONFILE ]]; then
-      echo -e $COLOUR_GREEN"$IPYTHON_CONF_FILE is already linked."$NO_COLOUR
-      SHOULDLINK=false
-    else
-      echo -e $COLOUR_YELLOW"Backing up $IPYTHON_CONF_FILE..."$NO_COLOUR
-      cp "$DSTIPYTHONFILE" "$BACKUPDIR"
-      rm -f "$DSTIPYTHONFILE"
-    fi
-  fi
-  if $SHOULDLINK; then
-    echo -e "Linking $IPYTHON_CONF_FILE..."
-    ln -s "$SRCIPYTHONFILE" "$IPYTHON_CONF_DIR"
-  fi
-
-  # Jupyter
-  mkdir -p "$JUPYTER_CONF_DIR"
-  SRCJUPYTERFILE="$SCRIPTDIR/$JUPYTER_CONF_FILE"
-  DSTJUPYTERFILE="$JUPYTER_CONF_DIR/$JUPYTER_CONF_FILE"
-
-  SHOULDLINK=true
-  if [[ -f "$DSTJUPYTERFILE" ]]; then
-    CURDSTFILE=$( readlink "$DSTJUPYTERFILE" )
-    if [[ $CURDSTFILE == $SRCJUPYTERFILE ]]; then
-      echo -e $COLOUR_GREEN"$JUPYTER_CONF_FILE is already linked."$NO_COLOUR
-      SHOULDLINK=false
-    else
-      echo -e $COLOUR_YELLOW"Backing up $JUPYTER_CONF_FILE..."$NO_COLOUR
-      cp "$DSTJUPYTERFILE" "$BACKUPDIR"
-      rm -f "$DSTJUPYTERFILE"
-    fi
-  fi
-  if $SHOULDLINK; then
-    echo -e "Linking $JUPYTER_CONF_FILE..."
-    ln -s "$SRCJUPYTERFILE" "$JUPYTER_CONF_DIR"
-  fi
-
   # Sourcing the gitconfig
   source_gitconfig
 
@@ -318,11 +251,6 @@ link_dot_files() {
   SRCVIM="$SCRIPTDIR/.vim"
   DSTVIM="$HOME/.vim"
   link_directory $SRCVIM $DSTVIM
-
-  # Link cmus directory
-  SRCCMUS="$SCRIPTDIR/cmus"
-  DSTCMUS="$HOME/.config/cmus"
-  link_directory $SRCCMUS $DSTCMUS
 }
 
 # Installing ViM
@@ -339,50 +267,10 @@ install_vim() {
     echo -e $COLOUR_GREEN"Vundle is already installed."$NO_COLOUR
   fi
 
-  YCMDIR="$HOME/.vim/bundle/YouCompleteMe"
-  YCMEXISTED=false
-  if [[ -d $YCMDIR ]]; then
-    YCMEXISTED=true
-  fi
-
   # Updating vim plugings
   echo -e ""
   echo -e $COLOUR_BLUE"Installing and updating ViM plugins..."$NO_COLOUR
   vim +PluginUpdate +PluginInstall +PluginClean +qall
-
-  # Compiling YouCompleteMe
-  if $YCMEXISTED; then
-    echo -e $COLOUR_GREEN"YouCompleteMe already exists, not compiling it."$NO_COLOUR
-  else
-    echo -e "Compiling YouCompleteMe..."
-    "$HOME/.vim/bundle/YouCompleteMe/install.py" --clang-completer --omnisharp-completer > /dev/null
-  fi
-
-  # Compiling OmniSharp
-  echo -e "Compiling OmniSharp server..."
-  OMNISHARPDIR="$BUNDLEDIR/omnisharp-vim/server/"
-  cd "$OMNISHARPDIR" && xbuild > /dev/null
-  cd "$SCRIPTDIR"
-}
-
-# Installing separate mono64
-install_mono64() {
-  echo -e ""
-  echo -e $COLOUR_BLUE"Checking Mono 64-bit..."$NO_COLOUR
-  MONO64BREW="$MONO64DIR/bin/brew"
-  if [[ -d $MONO64DIR ]]; then
-    echo -e $COLOUR_GREEN"Mono 64-bit is already set up."$NO_COLOUR
-  else
-    echo -e "Installing separate Homebrew for Mono..."
-    mkdir -p "$MONO64DIR" && \
-      curl -s -L https://github.com/Homebrew/homebrew/tarball/master | \
-      tar xz --strip 1 -C "$MONO64DIR"
-  fi
-  echo -e "Checking for (and installing) updates..."
-  "$MONO64BREW" update > /dev/null
-  "$MONO64BREW" upgrade mono > /dev/null
-  "$MONO64BREW" install mono > /dev/null
-  "$MONO64BREW" cleanup > /dev/null
 }
 
 #
@@ -429,7 +317,6 @@ else
       if [[ $PLATFORM == "OSX" ]]; then
         ./install.sh tools
         ./install.sh config
-        install_mono64
       else
         >&2 echo -e $COLOUR_RED"Install all is not possible on Linux because the package manager requires root access, please run these commands separately:"$NO_COLOUR
         >&2 echo -e "sudo ./install.sh tools"
